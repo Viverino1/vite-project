@@ -1,5 +1,5 @@
 import { ReactElement } from "react"
-import { CardHeading } from "react-bootstrap-icons";
+import { CardHeading, Collection } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../utils/redux/hooks";
 import { setSide, setTopic } from "../utils/redux/reducers/app";
@@ -16,7 +16,7 @@ function Sidebar(){
     return(
         <div className="group relative w-21 flex flex-col space-y-2 hover:w-72 h-full p-2 transition-all duration-300 bg-accent text-background">
             <div className="flex flex-col space-y-2 items-center w-full h-fit">
-                <button className="rounded-full overflow-clip" onClick={() => {navigate("/settings")}}><img src={user.photoURL} className="w-16 h-16"/></button>
+                <button className="rounded-full overflow-clip" onClick={() => {navigate("/settings")}}><img src={user.photoURL} alt="user photo" className="w-16 h-16"/></button>
                 <div className="flex flex-col space-y-2 items-center w-full h-0 group-hover:h-16 overflow-clip whitespace-nowrap group-hover:opacity-100 opacity-0 transition-all duration-300">
                     <div className="flex justify-center h-6">{user.userName}</div>
                     <div className="flex space-x-2 w-full">
@@ -40,7 +40,8 @@ function Sidebar(){
             </div>
             <div className="flex flex-col space-y-2">
                 <SidebarElement text={"Debate Tool"} link={"/"} icon={<img src="DebateToolLogo.svg"/>}/>
-                <SidebarElement text={"View Cards"} link={"/cards"} icon={<CardHeading size={35}/>}/>
+                <SidebarElement text={"View Cards"} link={"/cards"} icon={<Collection size={35}/>}/>
+                <SidebarElement text={"New Card"} link={"/new"} icon={<CardHeading size={35}/>}/>
             </div>
         </div>
     )

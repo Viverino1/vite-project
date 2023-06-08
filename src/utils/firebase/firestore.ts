@@ -1,6 +1,6 @@
-import { CollectionReference, DocumentData, addDoc, collection, doc, getDoc, getDocs, getFirestore, setDoc } from "firebase/firestore";
+import { CollectionReference, DocumentData, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, setDoc } from "firebase/firestore";
 import app from "./config";
-import { PublicData, Team, User } from "../types";
+import { Contention, Contentions, Evidence, PublicData, Team, User } from "../types";
 
 const db = getFirestore(app);
 
@@ -61,6 +61,49 @@ async function getPublicData(){
     return publicData;
 }
 
+//contentions
+async function getContentions(teamID: string, topic: string, side: string){
+    if(!teamID || !topic || !side){return []}
+    const docRef = doc(db, "teams", teamID, "contentions", topic);
+    const contentionsSnap = await getDoc(docRef);
+    const contentionsData = contentionsSnap.data() as Contentions;
+    if(!contentionsData){return [];}
+    const contentions = contentionsData[side as "AFF" | "NEG"];
+    return contentions as Contention[];
+}
+
+function saveContentions(teamID: string, topic: string, side: string, contentions: Contention[]){
+    if(!topic || !teamID){return}
+    setDoc(doc(db, "teams", teamID, "contentions", topic), {[side] : contentions? contentions : []}, {merge: true});
+}
+
+//Evidence Cards
+async function getEvidenceCards(topic: string, side: string){
+    if(!topic || !side){return [];}
+    const colSnap = await getDocs(collection(db, "evidences", topic, side));
+    const evidenceCards: Evidence[] = [];
+    colSnap.forEach((e) => {
+        evidenceCards.push(e.data() as Evidence)
+    })
+
+    return evidenceCards;
+}
+
+function addEvidenceCard(topic: string, side: string, card: Evidence){
+    addDoc(collection(db, "evidences", topic, side), card).then((newCard) => {
+        const cardWithId: Evidence = {
+            ...card,
+            cardID: newCard.id,
+        }
+        console.log(cardWithId);
+        setDoc(doc(db, "evidences", topic, side, newCard.id), cardWithId, {merge: true})
+    })
+}
+
+function deleteEvidenceCard(topic: string, side: string, cardID: string){
+    deleteDoc(doc(db, "evidences", topic, side, cardID));
+}
+
 export default db;
 
 export {
@@ -73,4 +116,9 @@ export {
     getPublicData,
     getTeam,
     saveTeam,
+    getContentions,
+    saveContentions,
+    getEvidenceCards,
+    addEvidenceCard,
+    deleteEvidenceCard,
 }

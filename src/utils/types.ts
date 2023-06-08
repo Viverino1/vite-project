@@ -8,6 +8,11 @@ type User = {
     speaker: number,
 }
 
+type Contentions = {
+    AFF: Contention[],
+    NEG: Contention[],
+}
+
 type Contention = {
     name: string,
     subpoints: string[],
@@ -18,15 +23,16 @@ type Subpoint = {
     subpoint: number,
 }
 
-type Card = {
+type Evidence = {
     title: string,
     owner: string,
     contention: number,
     subpoint: number,
-    evidence: string,
+    text: string,
     sourceName: string,
     sourceLink: string,
-    starred: boolean,
+    cardID: string,
+    reasoning: string,
 }
 
 type Team = {
@@ -34,7 +40,6 @@ type Team = {
    owner: string,
    members: string[],
    teamID: string,
-   contentions: Contention[]
 }
 
 type PublicData = {
@@ -43,8 +48,9 @@ type PublicData = {
 
 export type {
     User,
+    Contentions,
     Contention,
-    Card,
+    Evidence,
     Team,
     PublicData,
     Subpoint,

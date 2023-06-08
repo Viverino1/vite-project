@@ -3,6 +3,7 @@ import authSlice from './reducers/auth'
 import teamSlice from './reducers/team';
 import publicSlice from './reducers/public';
 import appSlice from './reducers/app';
+import cardsSlice from './reducers/cards';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     [teamSlice.name] : teamSlice.reducer,
     [publicSlice.name] : publicSlice.reducer,
     [appSlice.name] : appSlice.reducer,
+    [cardsSlice.name] : cardsSlice.reducer,
   },
 })
 

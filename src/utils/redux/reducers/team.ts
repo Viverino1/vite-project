@@ -3,10 +3,12 @@ import { Contention, Subpoint, Team } from "../../types";
 
 type TeamState = {
     team: Team,
+    contentions: Contention[],
 };
 
 const initialState = {
     team: {},
+    contentions: [] as Contention[],
 } as TeamState;
 
 export const teamSlice = createSlice({
@@ -20,19 +22,19 @@ export const teamSlice = createSlice({
             state.team.teamName = action.payload;
         },
         addContention: (state) => {
-            state.team.contentions.push({name: "", subpoints: []} as Contention);
+            state.contentions.push({name: "", subpoints: []} as Contention);
         },
         addSupboint: (state, action: PayloadAction<number>) => {
-            state.team.contentions[action.payload].subpoints.push("");
+            state.contentions[action.payload].subpoints.push("");
         },
         deleteContention: (state, action: PayloadAction<number>) => {
-            state.team.contentions.splice(action.payload, 1);
+            state.contentions.splice(action.payload, 1);
         },
         deleteSubpoint: (state, action: PayloadAction<Subpoint>) => {
-            state.team.contentions[action.payload.contention].subpoints.splice(action.payload.subpoint, 1);
+            state.contentions[action.payload.contention].subpoints.splice(action.payload.subpoint, 1);
         },
         setContentions: (state, action: PayloadAction<Contention[]>) => {
-            state.team.contentions = action.payload;
+            state.contentions = action.payload;
         }
     },
 });

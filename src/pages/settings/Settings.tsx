@@ -91,7 +91,6 @@ function CreateTeam(){
                                             owner: user.uid,
                                             members: [member.uid],
                                             teamName: teamName,
-                                            contentions: [],
                                             teamID: "",
                                         };
                                         createTeam(newTeam).then((t) => {dispatch(setTeam(t))})
@@ -109,7 +108,7 @@ function CreateTeam(){
 function CaseOptions(){
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const contentions = useAppSelector((state) => state.team.team.contentions);
+    const contentions = useAppSelector((state) => state.team.contentions);
     return(
         <div className="flex flex-col space-y-4 w-full h-fit p-4 rounded-lg bg-secondary shadow-md shadow-primary">
             <div className="text-3xl">Case Options</div>
@@ -122,6 +121,10 @@ function CaseOptions(){
                             <button className="flex justify-center items-center w-10 h-10 rounded-lg bg-primary text-background"
                             onClick={() => {
                                 dispatch(deleteContention(index));
+                                navigate("/NULL");
+                                    setTimeout(() => {
+                                        navigate("/settings");
+                                    }, 0);
                             }}>
                                 <Trash3Fill size={25}/>
                             </button>
@@ -174,11 +177,11 @@ function CaseOptions(){
                 const newContentions: Contention[] = [];
                 contentions.forEach((contention, c) => {
                     const contID = "cont" + (c + 1);
-                    newContentions.push({name: getValue("cont1", ""), subpoints: []} as Contention);
-                    contention.subpoints.forEach((subpoint, s) => {
+                    newContentions.push({name: getValue(contID, ""), subpoints: []} as Contention);
+                    for(let s = 0; s < contention.subpoints.length; s++){
                         const subID = contID + "sub" + (s + 1);
                         newContentions[c].subpoints.push(getValue(subID, ""));
-                    })
+                    }
                 })
                 dispatch(setContentions(newContentions));
             }}>Save</button>

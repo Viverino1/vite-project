@@ -33,9 +33,12 @@ export default {
         },
 
         fontFamily: {
-            'quicksand': ['Nunito', 'sans-serif']
+            'quicksand': ['Nunito', 'sans-serif'],
+            'lalita-one': ['Lilita One', 'cursive']
         },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
 }
