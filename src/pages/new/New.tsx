@@ -2,6 +2,7 @@ import { PlusLg } from "react-bootstrap-icons";
 import EvidenceCard from "../../components/EvidenceCard";
 import { Evidence, Rebuttal } from "../../utils/types";
 import { useNavigate } from "react-router-dom";
+import RebuttalCard from "../../components/RebuttalCard";
 
 const evidenceData: Evidence = {
     title: "Free Riding",
@@ -35,7 +36,6 @@ export default function New(){
                 <div className="flex flex-col space-y-4 items-center">
                     <EvidenceCard data={evidenceData}></EvidenceCard>
                     <div className="text-xl text-center">This card stores evidence from sources along with reasoning to explain what the text evidence proves, and how it helps your argument.</div>
-
                     <button className="relative flex justify-center items-center text-background w-40 h-10 bg-primary rounded-lg"
                     onClick={() => {navigate("/new-evidence")}}>
                         <PlusLg size={25} className="absolute left-2 top-2 bottom-2"/>
@@ -44,13 +44,12 @@ export default function New(){
                 </div>
 
                 <div className="flex flex-col space-y-4 items-center">
-                    <EvidenceCard data={evidenceData}></EvidenceCard>
-                    <div className="text-xl text-center">This card stores evidence from sources along with reasoning to explain what the text evidence proves, and how it helps your argument.</div>
-
+                    <RebuttalCard data={rebuttalData}></RebuttalCard>
+                    <div className="text-xl text-center">This card stores evidence from a source along with reasoning for how it can refute an apponent's argument.</div>
                     <button className="relative flex justify-center items-center text-background w-40 h-10 bg-primary rounded-lg"
-                    onClick={() => {navigate("/new-evidence")}}>
+                    onClick={() => {navigate("/new-rebuttal")}}>
                         <PlusLg size={25} className="absolute left-2 top-2 bottom-2"/>
-                        <div>Evidence</div>
+                        <div>Rebuttal</div>
                     </button>
                 </div>
             </div>
