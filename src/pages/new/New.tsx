@@ -1,6 +1,6 @@
 import { PlusLg } from "react-bootstrap-icons";
 import EvidenceCard from "../../components/EvidenceCard";
-import { Evidence } from "../../utils/types";
+import { Evidence, Rebuttal } from "../../utils/types";
 import { useNavigate } from "react-router-dom";
 
 const evidenceData: Evidence = {
@@ -13,6 +13,17 @@ const evidenceData: Evidence = {
     sourceLink: "https://www.epi.org/publication/so-called-right-to-work-is-wrong-for-montana/",
     cardID: "",
     reasoning: "Free riding prevents Unions from effectively providing benefits to the workers they represent. This means less job security, lower pay, worse working conditions, and much more.",
+}
+
+const rebuttalData: Rebuttal = {
+    title: "This is the title.",
+    owner: "",
+    text: "This is the text from the source.",
+    sourceName: "Youtube",
+    sourceLink: "https://youtube.com",
+    cardID: "",
+    reasoning: "This is how your text counters the apponent's argument.",
+    rebuttalTo: "This is your opponent's argument.",
 }
 
 export default function New(){

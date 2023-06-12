@@ -35,6 +35,17 @@ type Evidence = {
     reasoning: string,
 }
 
+type Rebuttal = {
+    title: string,
+    owner: string,
+    text: string,
+    sourceName: string,
+    sourceLink: string,
+    cardID: string,
+    reasoning: string,
+    rebuttalTo: string,
+}
+
 type Team = {
    teamName: string,
    owner: string,
@@ -51,6 +62,7 @@ export type {
     Contentions,
     Contention,
     Evidence,
+    Rebuttal,
     Team,
     PublicData,
     Subpoint,
