@@ -83,7 +83,7 @@ export default function NewEvidence(){
                 onChange={() => {setReasoning(getValue("reasoning", ""))}}/>
             </div>
             <div className="flex flex-col space-y-4 justify-center items-center w-1/3 p-4">
-                <EvidenceCard data={data}/>
+                <EvidenceCard data={data} isPreview={true}/>
                 <button className="w-32 h-10 bg-primary rounded-lg text-background
                 shadow-primary shadow-md hover:shadow-primary hover:shadow-sm transition-all duration-300"
                 onClick={() => {addEvidenceCard(topic, side, data)}}

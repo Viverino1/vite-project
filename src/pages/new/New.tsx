@@ -34,7 +34,7 @@ export default function New(){
             <div className="text-6xl text-primary">Create a New Card</div>
             <div className="lg:grid-cols-3 md:grid-cols-2 inline-grid 3 gap-4 w-full h-full">
                 <div className="flex flex-col space-y-4 items-center">
-                    <EvidenceCard data={evidenceData}></EvidenceCard>
+                    <EvidenceCard data={evidenceData} isPreview={true}></EvidenceCard>
                     <div className="text-xl text-center">This card stores evidence from sources along with reasoning to explain what the text evidence proves, and how it helps your argument.</div>
                     <button className="relative flex justify-center items-center text-background w-40 h-10 bg-primary rounded-lg"
                     onClick={() => {navigate("/new-evidence")}}>
@@ -44,7 +44,7 @@ export default function New(){
                 </div>
 
                 <div className="flex flex-col space-y-4 items-center">
-                    <RebuttalCard data={rebuttalData}></RebuttalCard>
+                    <RebuttalCard data={rebuttalData} isPreview={true}></RebuttalCard>
                     <div className="text-xl text-center">This card stores evidence from a source along with reasoning for how it can refute an apponent's argument.</div>
                     <button className="relative flex justify-center items-center text-background w-40 h-10 bg-primary rounded-lg"
                     onClick={() => {navigate("/new-rebuttal")}}>

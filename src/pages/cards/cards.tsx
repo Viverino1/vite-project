@@ -1,8 +1,10 @@
 import EvidenceCard from "../../components/EvidenceCard";
+import RebuttalCard from "../../components/RebuttalCard";
 import { useAppSelector } from "../../utils/redux/hooks";
 
 export default function Cards(){
     const evidences = useAppSelector((state) => state.cards.evidences);
+    const rebuttals = useAppSelector((state) => state.cards.rebuttals);
     
     return(
         <div className="relative w-full h-screen p-4 overflow-scroll">
@@ -10,7 +12,10 @@ export default function Cards(){
             <div className="h-20 w-full"/>
             <div className="lg:grid-cols-3 md:grid-cols-2 inline-grid w-full gap-4">
                 {evidences.map((card, index) => (
-                    <EvidenceCard key={index} data={card}/>
+                    <EvidenceCard key={index} data={card} isPreview={false}/>
+                ))}
+                {rebuttals.map((card, index) => (
+                    <RebuttalCard key={index} data={card} isPreview={false}/>
                 ))}
             </div>
         </div>

@@ -7,9 +7,9 @@ import { auth } from "./utils/firebase/auth";
 import { setUser } from "./utils/redux/reducers/auth";
 import { clearUser } from "./utils/redux/reducers/auth";
 import { useEffect, useState } from "react";
-import { Contention, Evidence, Team, User } from "./utils/types";
+import { Contention, Team, User } from "./utils/types";
 import { setContentions, setTeam } from "./utils/redux/reducers/team";
-import { getContentions, getEvidenceCards, getPublicData, getTeam, getUser, getUsers, saveContentions, saveTeam, saveUser } from "./utils/firebase/firestore";
+import { getContentions, getEvidenceCards, getPublicData, getRebuttalCards, getTeam, getUser, getUsers, saveContentions, saveTeam, saveUser } from "./utils/firebase/firestore";
 import { setTopics, setUsers } from "./utils/redux/reducers/public";
 import Home from "./pages/home/home";
 import Settings from "./pages/settings/Settings";
@@ -17,10 +17,11 @@ import Loading from "./pages/loading/Loading";
 import Cards from "./pages/cards/cards";
 import { setTopic } from "./utils/redux/reducers/app";
 import { useDispatch } from "react-redux";
-import { setEvidenceCards } from "./utils/redux/reducers/cards";
+import { setEvidenceCards, setRebuttalCards } from "./utils/redux/reducers/cards";
 import New from "./pages/new/New";
 import NewEvidence from "./pages/new/evidence/NewEvidence";
 import EvidenceCardExpanded from "./pages/expanded/EvidenceCardExpanded";
+import NewRebuttal from "./pages/new/rebuttal/NewRebuttal";
 
 export default function App(){
     const dispatch = useAppDispatch();
@@ -28,11 +29,7 @@ export default function App(){
     const [isLoading, setIsLoading] = useState(true);
 
     const evidences = useAppSelector((state) => state.cards.evidences);
-
-    const cards: (Evidence)[] = [];
-    evidences.forEach((evidence) => {
-        cards.push(evidence);
-    })
+    const rebuttals = useAppSelector((state) => state.cards.rebuttals);
 
     onAuthStateChanged(auth, (u) => {
         if(u){
@@ -69,12 +66,16 @@ export default function App(){
                             <Routes>
                                 <Route path="/" element={<Home/>}/>
                                 <Route path="/cards" element={<Cards/>}/>
-                                {cards.map((card, index) => (
-                                    <Route key={index} path={"/cards:" + card.cardID} element={<EvidenceCardExpanded data={card}/>}/>
+                                {evidences.map((card, index) => (
+                                    <Route key={index} path={"/cards:evidences:" + card.cardID} element={<EvidenceCardExpanded data={card}/>}/>
+                                ))}
+                                {rebuttals.map((card, index) => (
+                                    <Route key={index} path={"/cards:rebuttals:" + card.cardID} element={<div>{card.rebuttalTo}</div>}/>
                                 ))}
                                 <Route path="/settings" element={<Settings/>}/>
                                 <Route path="/new" element={<New/>}/>
                                 <Route path="/new-evidence" element={<NewEvidence/>}/>
+                                <Route path="/new-rebuttal" element={<NewRebuttal/>}/>
                             </Routes>
                         </div>
                     </div>
@@ -103,9 +104,7 @@ async function getData(user: User){
 
     const contentions = await getContentions(user.teamID, topic, "AFF");
 
-    const evidences = await getEvidenceCards(topic, "AFF");
-
-    return {team, users, topics, topic, contentions, evidences}
+    return {team, users, topics, topic, contentions}
 }
 
 //Update data on firestore each time it changes in the app state.
@@ -135,6 +134,10 @@ function UpdateData(){
 
         getEvidenceCards(topic, side).then((evidences) => {
             dispatch(setEvidenceCards(evidences));
+        })
+
+        getRebuttalCards(topic, side).then((rebuttals) => {
+            dispatch(setRebuttalCards(rebuttals));
         })
         
     }, [side, topic]);
