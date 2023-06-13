@@ -1,11 +1,16 @@
 import { useState } from "react";
-import { useAppSelector } from "../../../utils/redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../utils/redux/hooks";
 import { Rebuttal } from "../../../utils/types";
 import { getValue } from "../../../utils/helpers";
 import RebuttalCard from "../../../components/RebuttalCard";
 import { addRebuttalCard } from "../../../utils/firebase/firestore";
+import { newRebuttalCard } from "../../../utils/redux/reducers/cards";
+import { useNavigate } from "react-router-dom";
 
 export default function NewRebuttal(){
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    
     const side = useAppSelector((state) => state.app.side);
     const topic = useAppSelector((state) => state.app.topic);
     const user = useAppSelector((state) => state.auth.user);
@@ -62,7 +67,12 @@ export default function NewRebuttal(){
                 <RebuttalCard data={data} isPreview={true}/>
                 <button className="w-32 h-10 bg-primary rounded-lg text-background
                 shadow-primary shadow-md hover:shadow-primary hover:shadow-sm transition-all duration-300"
-                onClick={() => {addRebuttalCard(topic, side, data)}}
+                onClick={() => {
+                    addRebuttalCard(topic, side, data).then((card) => {
+                        dispatch(newRebuttalCard(card));
+                        navigate("/cards");
+                    })
+                }}
                 >Save</button>
             </div>
         </div>

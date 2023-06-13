@@ -4,8 +4,14 @@ import { Quote } from "../../../utils/types";
 import { getValue } from "../../../utils/helpers";
 import QuoteCard from "../../../components/QuoteCard";
 import { addQuoteCard } from "../../../utils/firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { newQuoteCard } from "../../../utils/redux/reducers/cards";
 
 export default function NewQuote(){
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const side = useAppSelector((state) => state.app.side);
     const topic = useAppSelector((state) => state.app.topic);
 
@@ -93,7 +99,12 @@ export default function NewQuote(){
                 <QuoteCard data={data} isPreview={true}/>
                 <button className="w-32 h-10 bg-primary rounded-lg text-background
                 shadow-primary shadow-md hover:shadow-primary hover:shadow-sm transition-all duration-300"
-                onClick={() => {addQuoteCard(topic, side, data)}}
+                onClick={() => {
+                    addQuoteCard(topic, side, data).then((card) => {
+                        dispatch(newQuoteCard(card));
+                        navigate("/cards");
+                    })
+                }}
                 >Save</button>
             </div>
         </div>

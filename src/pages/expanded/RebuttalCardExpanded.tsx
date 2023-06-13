@@ -1,12 +1,22 @@
 import { useEffect, useState } from "react";
 import { Rebuttal, User } from "../../utils/types";
-import { getUser } from "../../utils/firebase/firestore";
+import { deleteRebuttalCard, getUser } from "../../utils/firebase/firestore";
 import Loading from "../loading/Loading";
 
 import Creator from "./components/Creator";
 import { Pen, Share, Trash3 } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../utils/redux/hooks";
+import { removeRebuttalCard } from "../../utils/redux/reducers/cards";
 
 export default function RebuttalCardExpanded(props: {data: Rebuttal}){
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const topic = useAppSelector((state) => state.app.topic);
+    const side = useAppSelector((state) => state.app.side);
+
     const [loading, setLoading] = useState(true);
     const [owner, setOwner] = useState({} as User);
     useEffect(() => {
@@ -37,7 +47,15 @@ export default function RebuttalCardExpanded(props: {data: Rebuttal}){
                     <button className="flex justify-center items-center w-16 h-16 bg-primary rounded-full">
                         <Pen size={30}/>
                     </button>
-                    <button className="flex justify-center items-center w-16 h-16 bg-primary rounded-full">
+                    <button className="flex justify-center items-center w-16 h-16 bg-primary rounded-full"
+                    onClick={() => {
+                        deleteRebuttalCard(topic, side, props.data.cardID).then(() => {
+                            setTimeout(() => {
+                                dispatch(removeRebuttalCard(props.data.cardID));
+                                navigate("/cards");
+                            }, 0);
+                        })
+                    }}>
                         <Trash3 size={30}/>
                     </button>
                     <button className="flex justify-center items-center w-16 h-16 bg-primary rounded-full"

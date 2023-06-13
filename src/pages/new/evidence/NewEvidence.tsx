@@ -4,8 +4,14 @@ import { Evidence } from "../../../utils/types";
 import { getValue } from "../../../utils/helpers";
 import { useAppSelector } from "../../../utils/redux/hooks";
 import { addEvidenceCard } from "../../../utils/firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { newEvidenceCard } from "../../../utils/redux/reducers/cards";
 
 export default function NewEvidence(){
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const side = useAppSelector((state) => state.app.side);
     const topic = useAppSelector((state) => state.app.topic);
 
@@ -86,7 +92,12 @@ export default function NewEvidence(){
                 <EvidenceCard data={data} isPreview={true}/>
                 <button className="w-32 h-10 bg-primary rounded-lg text-background
                 shadow-primary shadow-md hover:shadow-primary hover:shadow-sm transition-all duration-300"
-                onClick={() => {addEvidenceCard(topic, side, data)}}
+                onClick={() => {
+                    addEvidenceCard(topic, side, data).then((card) => {
+                        dispatch(newEvidenceCard(card));
+                        navigate("/cards");
+                    })
+                }}
                 >Save</button>
             </div>
         </div>

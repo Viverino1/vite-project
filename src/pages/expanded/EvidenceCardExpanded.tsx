@@ -8,7 +8,7 @@ import { Pen, Share, Trash3 } from "react-bootstrap-icons";
 import { useAppSelector } from "../../utils/redux/hooks";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setSide, setTopic } from "../../utils/redux/reducers/app";
+import { removeEvidenceCard } from "../../utils/redux/reducers/cards";
 
 export default function EvidenceCardExpanded(props: {data: Evidence}){
     const navigate = useNavigate();
@@ -51,9 +51,9 @@ export default function EvidenceCardExpanded(props: {data: Evidence}){
                     onClick={() => {
                         deleteEvidenceCard(topic, side, props.data.cardID).then(() => {
                             setTimeout(() => {
+                                dispatch(removeEvidenceCard(props.data.cardID));
                                 navigate("/cards");
-                                location.reload();
-                            }, 0)
+                            }, 0);
                         })
                     }}>
                         <Trash3 size={30}/>

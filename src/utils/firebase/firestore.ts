@@ -89,15 +89,16 @@ async function getEvidenceCards(topic: string, side: string){
     return evidenceCards;
 }
 
-function addEvidenceCard(topic: string, side: string, card: Evidence){
-    addDoc(collection(db, "evidences", topic, side), card).then((newCard) => {
-        const cardWithId: Evidence = {
-            ...card,
-            cardID: newCard.id,
-        }
-        console.log(cardWithId);
-        setDoc(doc(db, "evidences", topic, side, newCard.id), cardWithId, {merge: true})
-    })
+async function addEvidenceCard(topic: string, side: string, card: Evidence){
+    const newCard = await addDoc(collection(db, "evidences", topic, side), card);
+
+    const cardWithId: Evidence = {
+        ...card,
+        cardID: newCard.id,
+    }
+
+    setDoc(doc(db, "evidences", topic, side, newCard.id), cardWithId, {merge: true});
+    return cardWithId;
 }
 
 async function deleteEvidenceCard(topic: string, side: string, cardID: string){
@@ -115,20 +116,21 @@ async function getRebuttalCards(topic: string, side: string){
     return evidenceCards;
 }
 
-function addRebuttalCard(topic: string, side: string, card: Rebuttal){
-    addDoc(collection(db, "rebuttals", topic, side), card).then((newCard) => {
-        const cardWithId: Rebuttal = {
-            ...card,
-            cardID: newCard.id,
-        }
-        console.log(cardWithId);
-        setDoc(doc(db, "rebuttals", topic, side, newCard.id), cardWithId, {merge: true})
-    })
+async function addRebuttalCard(topic: string, side: string, card: Rebuttal){
+    const newCard = await addDoc(collection(db, "rebuttals", topic, side), card);
+
+    const cardWithId: Rebuttal = {
+        ...card,
+        cardID: newCard.id,
+    }
+
+    setDoc(doc(db, "rebuttals", topic, side, newCard.id), cardWithId, {merge: true});
+    return cardWithId;
 }
 
 
-function deleteRebuttalCard(topic: string, side: string, cardID: string){
-    deleteDoc(doc(db, "rebuttals", topic, side, cardID));
+async function deleteRebuttalCard(topic: string, side: string, cardID: string){
+    deleteDoc(doc(db, "rebuttals", topic, side, cardID)).then(() => {return;});
 }
 
 async function getQuoteCards(topic: string, side: string){
@@ -142,19 +144,20 @@ async function getQuoteCards(topic: string, side: string){
     return quoteCards;
 }
 
-function addQuoteCard(topic: string, side: string, card: Quote){
-    addDoc(collection(db, "quotes", topic, side), card).then((newCard) => {
-        const cardWithId: Quote = {
-            ...card,
-            cardID: newCard.id,
-        }
-        console.log(cardWithId);
-        setDoc(doc(db, "quotes", topic, side, newCard.id), cardWithId, {merge: true})
-    })
+async function addQuoteCard(topic: string, side: string, card: Quote){
+    const newCard = await addDoc(collection(db, "quotes", topic, side), card);
+
+    const cardWithId: Quote = {
+        ...card,
+        cardID: newCard.id,
+    }
+
+    setDoc(doc(db, "quotes", topic, side, newCard.id), cardWithId, {merge: true});
+    return cardWithId;
 }
 
-function deleteQuoteCard(topic: string, side: string, cardID: string){
-    deleteDoc(doc(db, "quotes", topic, side, cardID));
+async function deleteQuoteCard(topic: string, side: string, cardID: string){
+    deleteDoc(doc(db, "quotes", topic, side, cardID)).then(() => {return;})
 }
 
 export default db;
