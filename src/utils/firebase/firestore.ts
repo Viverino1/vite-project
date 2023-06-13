@@ -100,8 +100,8 @@ function addEvidenceCard(topic: string, side: string, card: Evidence){
     })
 }
 
-function deleteEvidenceCard(topic: string, side: string, cardID: string){
-    deleteDoc(doc(db, "evidences", topic, side, cardID));
+async function deleteEvidenceCard(topic: string, side: string, cardID: string){
+    deleteDoc(doc(db, "evidences", topic, side, cardID)).then(() => {return;})
 }
 
 async function getRebuttalCards(topic: string, side: string){
