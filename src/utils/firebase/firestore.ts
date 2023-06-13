@@ -1,6 +1,6 @@
 import { CollectionReference, DocumentData, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, setDoc } from "firebase/firestore";
 import app from "./config";
-import { Contention, Contentions, Evidence, PublicData, Rebuttal, Team, User } from "../types";
+import { Contention, Contentions, Evidence, PublicData, Quote, Rebuttal, Team, User } from "../types";
 
 const db = getFirestore(app);
 
@@ -126,8 +126,35 @@ function addRebuttalCard(topic: string, side: string, card: Rebuttal){
     })
 }
 
+
 function deleteRebuttalCard(topic: string, side: string, cardID: string){
     deleteDoc(doc(db, "rebuttals", topic, side, cardID));
+}
+
+async function getQuoteCards(topic: string, side: string){
+    if(!topic || !side){return [];}
+    const colSnap = await getDocs(collection(db, "quotes", topic, side));
+    const quoteCards: Quote[] = [];
+    colSnap.forEach((e) => {
+        quoteCards.push(e.data() as Quote)
+    })
+
+    return quoteCards;
+}
+
+function addQuoteCard(topic: string, side: string, card: Quote){
+    addDoc(collection(db, "quotes", topic, side), card).then((newCard) => {
+        const cardWithId: Quote = {
+            ...card,
+            cardID: newCard.id,
+        }
+        console.log(cardWithId);
+        setDoc(doc(db, "quotes", topic, side, newCard.id), cardWithId, {merge: true})
+    })
+}
+
+function deleteQuoteCard(topic: string, side: string, cardID: string){
+    deleteDoc(doc(db, "quotes", topic, side, cardID));
 }
 
 export default db;
@@ -150,4 +177,7 @@ export {
     getRebuttalCards,
     addRebuttalCard,
     deleteRebuttalCard,
+    getQuoteCards,
+    addQuoteCard,
+    deleteQuoteCard,
 }

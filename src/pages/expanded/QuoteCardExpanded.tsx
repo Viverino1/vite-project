@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { contsub } from "../../utils/helpers";
-import { Evidence, User } from "../../utils/types";
+import { Quote, User } from "../../utils/types";
 import { getUser } from "../../utils/firebase/firestore";
 import Loading from "../loading/Loading";
 import Options from "./components/Options";
 import Creator from "./components/Creator";
 
-export default function EvidenceCardExpanded(props: {data: Evidence}){
+export default function QuoteCardExpanded(props: {data: Quote}){
     const [loading, setLoading] = useState(true);
     const [owner, setOwner] = useState({} as User);
     useEffect(() => {
@@ -24,6 +24,8 @@ export default function EvidenceCardExpanded(props: {data: Evidence}){
             <div className="text-4xl">{props.data.title}</div>
             <a className="text-2xl text-blue-500 underline" target="_blank" rel="noopener noreferrer" href={props.data.sourceLink}> {props.data.sourceName}</a>
 
+            <div className="text-2xl mt-4">Quotee</div>
+            <div className="text-lg">{props.data.quotee}</div>
             <div className="text-2xl mt-4">Evidence</div>
             <div className="text-lg">{props.data.text}</div>
             <div className="text-2xl mt-4">Reasoning</div>

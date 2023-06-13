@@ -1,8 +1,9 @@
 import { PlusLg } from "react-bootstrap-icons";
 import EvidenceCard from "../../components/EvidenceCard";
-import { Evidence, Rebuttal } from "../../utils/types";
+import { Evidence, Quote, Rebuttal } from "../../utils/types";
 import { useNavigate } from "react-router-dom";
 import RebuttalCard from "../../components/RebuttalCard";
+import QuoteCard from "../../components/QuoteCard";
 
 const evidenceData: Evidence = {
     title: "Free Riding",
@@ -27,30 +28,65 @@ const rebuttalData: Rebuttal = {
     rebuttalTo: "This is your opponent's argument.",
 }
 
+const quoteData: Quote = {
+    title: "Gandhi Quote",
+    owner: "",
+    text: "Be the change that you wish to see in the world.",
+    sourceName: "India Times",
+    sourceLink: "https://timesofindia.indiatimes.com/blogs/the-photo-blog/remembering-gandhi-top-10-quotes-by-the-mahatma/",
+    cardID: "",
+    reasoning: "This is a truly inspirational quote.",
+    quotee: "Mahatma Gandhi",
+    contention: -2,
+    subpoint: -3,
+
+}
+
 export default function New(){
     const navigate = useNavigate();
     return(
-        <div className="w-full h-screen p-4 flex flex-col items-center space-y-4 overflow-y-scroll">
-            <div className="text-6xl text-primary">Create a New Card</div>
-            <div className="lg:grid-cols-3 md:grid-cols-2 inline-grid 3 gap-4 w-full h-full">
-                <div className="flex flex-col space-y-4 items-center">
-                    <EvidenceCard data={evidenceData} isPreview={true}></EvidenceCard>
-                    <div className="text-xl text-center">This card stores evidence from sources along with reasoning to explain what the text evidence proves, and how it helps your argument.</div>
+        <div className="w-full h-screen p-4 flex flex-col items-center space-y-4 overflow-y-auto">
+            <div className="flex space-x-4  w-full h-fit">
+                <div className="w-1/3">
+                    <EvidenceCard data={evidenceData} isPreview={true}/>
+                </div>
+                <div className=" flex flex-col space-y-4 w-2/3 text-accent">
+                    <div className="text-3xl">Evidence</div>
+                    <div className="text-xl">This card stores evidence from sources along with reasoning to explain what the text evidence proves, and how it helps your argument.</div>
                     <button className="relative flex justify-center items-center text-background w-40 h-10 bg-primary rounded-lg"
                     onClick={() => {navigate("/new-evidence")}}>
                         <PlusLg size={25} className="absolute left-2 top-2 bottom-2"/>
                         <div>Evidence</div>
                     </button>
                 </div>
-
-                <div className="flex flex-col space-y-4 items-center">
-                    <RebuttalCard data={rebuttalData} isPreview={true}></RebuttalCard>
-                    <div className="text-xl text-center">This card stores evidence from a source along with reasoning for how it can refute an apponent's argument.</div>
+            </div>
+            <div className="flex space-x-4  w-full h-fit">
+                <div className="w-1/3">
+                    <RebuttalCard data={rebuttalData} isPreview={true}/>
+                </div>
+                <div className=" flex flex-col space-y-4 w-2/3 text-accent">
+                    <div className="text-3xl">Rebuttal</div>
+                    <div className="text-xl">This card stores evidence from a source along with reasoning for how it can refute an apponent's argument.</div>
                     <button className="relative flex justify-center items-center text-background w-40 h-10 bg-primary rounded-lg"
                     onClick={() => {navigate("/new-rebuttal")}}>
                         <PlusLg size={25} className="absolute left-2 top-2 bottom-2"/>
                         <div>Rebuttal</div>
                     </button>
+                </div>
+            </div>
+
+            <div className="flex space-x-4  w-full h-fit">
+                <div className="w-1/3">
+                    <QuoteCard data={quoteData} isPreview={true}/>
+                </div>
+                <div className=" flex flex-col space-y-4 w-2/3 text-accent">
+                    <div className="text-3xl">Quote</div>
+                    <div className="text-xl">This card stores a quote said by someone from a source..</div>
+                    <button className="relative flex justify-center items-center text-background w-40 h-10 bg-primary rounded-lg"
+                    onClick={() => {navigate("/new-quote")}}>
+                    <PlusLg size={25} className="absolute left-2 top-2 bottom-2"/>
+                    <div>Quote</div>
+                </button>
                 </div>
             </div>
         </div>

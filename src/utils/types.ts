@@ -46,6 +46,19 @@ type Rebuttal = {
     rebuttalTo: string,
 }
 
+type Quote = {
+    title: string,
+    owner: string,
+    text: string,
+    sourceName: string,
+    sourceLink: string,
+    cardID: string,
+    reasoning: string,
+    quotee: string,
+    contention: number,
+    subpoint: number,
+}
+
 type Team = {
    teamName: string,
    owner: string,
@@ -63,6 +76,7 @@ export type {
     Contention,
     Evidence,
     Rebuttal,
+    Quote,
     Team,
     PublicData,
     Subpoint,

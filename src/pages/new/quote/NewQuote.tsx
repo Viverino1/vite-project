@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import EvidenceCard from "../../../components/EvidenceCard";
-import { Evidence } from "../../../utils/types";
-import { getValue } from "../../../utils/helpers";
 import { useAppSelector } from "../../../utils/redux/hooks";
-import { addEvidenceCard } from "../../../utils/firebase/firestore";
+import { Quote } from "../../../utils/types";
+import { getValue } from "../../../utils/helpers";
+import QuoteCard from "../../../components/QuoteCard";
+import { addQuoteCard } from "../../../utils/firebase/firestore";
 
-export default function NewEvidence(){
+export default function NewQuote(){
     const side = useAppSelector((state) => state.app.side);
     const topic = useAppSelector((state) => state.app.topic);
 
@@ -19,8 +19,9 @@ export default function NewEvidence(){
     const [sourceName, setSourceName] = useState("");
     const [sourceLink, setSourceLink] = useState("");
     const [reasoning, setReasoning] = useState("");
+    const [quotee, setQuotee] = useState("");
 
-    const data: Evidence = {
+    const data: Quote = {
         title: title,
         owner: user.uid,
         contention: contention,
@@ -30,6 +31,7 @@ export default function NewEvidence(){
         sourceLink: sourceLink,
         cardID: "",
         reasoning: reasoning,
+        quotee: quotee,
     }
 
     useEffect(() => {setContention(-3)}, [side, topic]);
@@ -73,6 +75,11 @@ export default function NewEvidence(){
                 className="w-full h-10 p-2 rounded-lg bg-secondary text-xl text-blue-500 placeholder-primary outline-none
                 shadow-primary shadow-md hover:shadow-primary hover:shadow-sm transition-all duration-300"
                 onChange={() => {setSourceLink(getValue("sourceLink", ""))}}/>
+                
+                <input type="text" id="quotee" placeholder="Who said the quote?"
+                className="w-full h-10 p-2 rounded-lg bg-secondary text-xl text-blue-500 placeholder-primary outline-none
+                shadow-primary shadow-md hover:shadow-primary hover:shadow-sm transition-all duration-300"
+                onChange={() => {setQuotee(getValue("quotee", ""))}}/>
 
                 <textarea id="text" className="w-full h-full text-lg p-2 bg-secondary rounded-lg outline-none resize-none placeholder-primary text-primary
                 shadow-primary shadow-md hover:shadow-primary hover:shadow-sm transition-all duration-300" placeholder="Evidence"
@@ -83,10 +90,10 @@ export default function NewEvidence(){
                 onChange={() => {setReasoning(getValue("reasoning", ""))}}/>
             </div>
             <div className="flex flex-col space-y-4 justify-center items-center w-1/3 p-4">
-                <EvidenceCard data={data} isPreview={true}/>
+                <QuoteCard data={data} isPreview={true}/>
                 <button className="w-32 h-10 bg-primary rounded-lg text-background
                 shadow-primary shadow-md hover:shadow-primary hover:shadow-sm transition-all duration-300"
-                onClick={() => {addEvidenceCard(topic, side, data)}}
+                onClick={() => {addQuoteCard(topic, side, data)}}
                 >Save</button>
             </div>
         </div>
