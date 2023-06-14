@@ -9,7 +9,7 @@ export default function EvidenceCard(props: {data: Evidence, isPreview: boolean}
         shadow-md hover:shadow-sm shadow-primary hover:shadow-primary transition-all duration-300"
         onClick={() => {
             if(!props.isPreview){
-                navigate("/cards:evidences:" + props.data.cardID);
+                navigate(`/cards/evidences/${props.data.cardID}`);
             }
         }}>
             <div className="w-full h-fit">

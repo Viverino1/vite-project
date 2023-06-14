@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import EvidenceCard from "../../components/EvidenceCard";
 import QuoteCard from "../../components/QuoteCard";
 import RebuttalCard from "../../components/RebuttalCard";
@@ -23,6 +24,7 @@ export default function Cards(){
                     <QuoteCard key={index} data={card} isPreview={false}/>
                 ))}
             </div>
+            <Outlet />
         </div>
     )
 }

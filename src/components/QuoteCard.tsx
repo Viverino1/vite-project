@@ -9,7 +9,7 @@ export default function QuoteCard(props: {data: Quote, isPreview: boolean}){
         shadow-md hover:shadow-sm shadow-primary hover:shadow-primary transition-all duration-300"
         onClick={() => {
             if(!props.isPreview){
-                navigate("/cards:quotes:" + props.data.cardID);
+                navigate(`/cards/quotes/${props.data.cardID}`);
             }
         }}>
             <div className="w-full h-fit">

@@ -8,7 +8,7 @@ export default function RebuttalCard(props: {data: Rebuttal, isPreview: boolean}
         shadow-md hover:shadow-sm shadow-primary hover:shadow-primary transition-all duration-300"
         onClick={() => {
             if(!props.isPreview){
-                navigate("/cards:rebuttals:" + props.data.cardID);
+                navigate(`/cards/rebuttals/${props.data.cardID}`);
             }
         }}>
             <div className="w-full h-fit">

@@ -69,21 +69,52 @@ export default function App(){
                         <div className="absolute z-40 top-0 bottom-0 right-0 left-21 h-screen bg-background">
                             <Routes>
                                 <Route path="/" element={<Home/>}/>
-                                <Route path="/cards" element={<Cards/>}/>
-                                {evidences.map((card, index) => (
-                                    <Route key={index} path={"/cards:evidences:" + card.cardID} element={<EvidenceCardExpanded data={card}/>}/>
-                                ))}
-                                {rebuttals.map((card, index) => (
-                                    <Route key={index} path={"/cards:rebuttals:" + card.cardID} element={<RebuttalCardExpanded data={card}/>}/>
-                                ))}
-                                {quotes.map((card, index) => (
-                                    <Route key={index} path={"/cards:quotes:" + card.cardID} element={<QuoteCardExpanded data={card}/>}/>
-                                ))}
+                                <Route path="/cards">
+                                    <Route index element={<Cards/>}/>
+                                    <Route path="evidences">
+                                        {evidences.map((card, index) => (
+                                            <Route key={index} path={card.cardID} element={<EvidenceCardExpanded data={card}/>}/>
+                                        ))}
+                                    </Route>
+
+                                    <Route path="rebuttals">
+                                        {rebuttals.map((card, index) => (
+                                            <Route key={index} path={card.cardID} element={<RebuttalCardExpanded data={card}/>}/>
+                                        ))}
+                                    </Route>
+                                    <Route path="quotes">
+                                        {quotes.map((card, index) => (
+                                            <Route key={index} path={card.cardID} element={<QuoteCardExpanded data={card}/>}/>
+                                        ))}
+                                    </Route>
+                                </Route>
+
                                 <Route path="/settings" element={<Settings/>}/>
-                                <Route path="/new" element={<New/>}/>
-                                <Route path="/new-evidence" element={<NewEvidence/>}/>
-                                <Route path="/new-rebuttal" element={<NewRebuttal/>}/>
-                                <Route path="/new-quote" element={<NewQuote/>}/>
+                                <Route path="/new">
+                                    <Route index element={<New/>}/>
+                                    <Route path="evidence" element={<NewEvidence/>}/>
+                                    <Route path="rebuttal" element={<NewRebuttal/>}/>
+                                    <Route path="quote" element={<NewQuote/>}/>
+                                </Route>
+                                <Route path="/edit">
+                                    <Route path="evidence">
+                                        {evidences.map((card, index) => (
+                                            <Route key={index} path={card.cardID} element={<NewEvidence editCard={card}/>}/>
+                                        ))}
+                                    </Route>
+
+                                    <Route path="rebuttal">
+                                        {rebuttals.map((card, index) => (
+                                            <Route key={index} path={card.cardID} element={<NewRebuttal editCard={card}/>}/>
+                                        ))}
+                                    </Route>
+
+                                    <Route path="quote">
+                                        {quotes.map((card, index) => (
+                                            <Route key={index} path={card.cardID} element={<NewQuote editCard={card}/>}/>
+                                        ))}
+                                    </Route>
+                                </Route>
                             </Routes>
                         </div>
                     </div>

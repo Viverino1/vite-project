@@ -1,7 +1,7 @@
 import { PlusLg } from "react-bootstrap-icons";
 import EvidenceCard from "../../components/EvidenceCard";
 import { Evidence, Quote, Rebuttal } from "../../utils/types";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import RebuttalCard from "../../components/RebuttalCard";
 import QuoteCard from "../../components/QuoteCard";
 
@@ -54,7 +54,7 @@ export default function New(){
                     <div className="text-3xl">Evidence</div>
                     <div className="text-xl">This card stores evidence from sources along with reasoning to explain what the text evidence proves, and how it helps your argument.</div>
                     <button className="relative flex justify-center items-center text-background w-40 h-10 bg-primary rounded-lg"
-                    onClick={() => {navigate("/new-evidence")}}>
+                    onClick={() => {navigate("/new/evidence")}}>
                         <PlusLg size={25} className="absolute left-2 top-2 bottom-2"/>
                         <div>Evidence</div>
                     </button>
@@ -68,7 +68,7 @@ export default function New(){
                     <div className="text-3xl">Rebuttal</div>
                     <div className="text-xl">This card stores evidence from a source along with reasoning for how it can refute an apponent's argument.</div>
                     <button className="relative flex justify-center items-center text-background w-40 h-10 bg-primary rounded-lg"
-                    onClick={() => {navigate("/new-rebuttal")}}>
+                    onClick={() => {navigate("/new/rebuttal")}}>
                         <PlusLg size={25} className="absolute left-2 top-2 bottom-2"/>
                         <div>Rebuttal</div>
                     </button>
@@ -83,12 +83,13 @@ export default function New(){
                     <div className="text-3xl">Quote</div>
                     <div className="text-xl">This card stores a quote said by someone from a source..</div>
                     <button className="relative flex justify-center items-center text-background w-40 h-10 bg-primary rounded-lg"
-                    onClick={() => {navigate("/new-quote")}}>
+                    onClick={() => {navigate("/new/quote")}}>
                     <PlusLg size={25} className="absolute left-2 top-2 bottom-2"/>
                     <div>Quote</div>
                 </button>
                 </div>
             </div>
+            <Outlet/>
         </div>
     )
 }

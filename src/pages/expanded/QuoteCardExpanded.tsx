@@ -46,7 +46,10 @@ export default function QuoteCardExpanded(props: {data: Quote}){
                 <div className="text-2xl">Options</div>
                 <div className="w-full h-px bg-accent"/>
                 <div className="flex space-x-4 text-secondary">
-                    <button className="flex justify-center items-center w-16 h-16 bg-primary rounded-full">
+                    <button className="flex justify-center items-center w-16 h-16 bg-primary rounded-full"
+                    onClick={() => {
+                        navigate(`/edit/quote/${props.data.cardID}`);
+                    }}>
                         <Pen size={30}/>
                     </button>
                     <button className="flex justify-center items-center w-16 h-16 bg-primary rounded-full"

@@ -39,7 +39,7 @@ function Sidebar(){
                 </div>
             </div>
             <div className="flex flex-col space-y-2">
-                <SidebarElement text={"Debate Tool"} link={"/"} icon={<img src="DebateToolLogo.svg"/>}/>
+                <SidebarElement text={"Debate Tool"} link={"/"} icon={<img src="/DebateToolLogo.svg"/>}/>
                 <SidebarElement text={"View Cards"} link={"/cards"} icon={<Collection size={35}/>}/>
                 <SidebarElement text={"New Card"} link={"/new"} icon={<CardHeading size={35}/>}/>
             </div>

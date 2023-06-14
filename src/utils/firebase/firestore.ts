@@ -105,6 +105,10 @@ async function deleteEvidenceCard(topic: string, side: string, cardID: string){
     deleteDoc(doc(db, "evidences", topic, side, cardID)).then(() => {return;})
 }
 
+async function saveEvidenceCard(topic: string, side: string, card: Evidence){
+    setDoc(doc(db, "evidences", topic, side, card.cardID), card, {merge: true});
+}
+
 async function getRebuttalCards(topic: string, side: string){
     if(!topic || !side){return [];}
     const colSnap = await getDocs(collection(db, "rebuttals", topic, side));
@@ -131,6 +135,10 @@ async function addRebuttalCard(topic: string, side: string, card: Rebuttal){
 
 async function deleteRebuttalCard(topic: string, side: string, cardID: string){
     deleteDoc(doc(db, "rebuttals", topic, side, cardID)).then(() => {return;});
+}
+
+async function saveRebuttalCard(topic: string, side: string, card: Rebuttal){
+    setDoc(doc(db, "rebuttals", topic, side, card.cardID), card, {merge: true});
 }
 
 async function getQuoteCards(topic: string, side: string){
@@ -160,6 +168,10 @@ async function deleteQuoteCard(topic: string, side: string, cardID: string){
     deleteDoc(doc(db, "quotes", topic, side, cardID)).then(() => {return;})
 }
 
+async function saveQuoteCard(topic: string, side: string, card: Quote){
+    setDoc(doc(db, "quotes", topic, side, card.cardID), card, {merge: true});
+}
+
 export default db;
 
 export {
@@ -174,13 +186,19 @@ export {
     saveTeam,
     getContentions,
     saveContentions,
+
     getEvidenceCards,
     addEvidenceCard,
     deleteEvidenceCard,
+    saveEvidenceCard,
+
     getRebuttalCards,
     addRebuttalCard,
     deleteRebuttalCard,
+    saveRebuttalCard,
+
     getQuoteCards,
     addQuoteCard,
     deleteQuoteCard,
+    saveQuoteCard,
 }

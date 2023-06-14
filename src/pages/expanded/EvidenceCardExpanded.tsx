@@ -44,7 +44,10 @@ export default function EvidenceCardExpanded(props: {data: Evidence}){
                 <div className="text-2xl">Options</div>
                 <div className="w-full h-px bg-accent"/>
                 <div className="flex space-x-4 text-secondary">
-                    <button className="flex justify-center items-center w-16 h-16 bg-primary rounded-full">
+                    <button className="flex justify-center items-center w-16 h-16 bg-primary rounded-full"
+                    onClick={() => {
+                        navigate(`/edit/evidence/${props.data.cardID}`);
+                    }}>
                         <Pen size={30}/>
                     </button>
                     <button className="flex justify-center items-center w-16 h-16 bg-primary rounded-full"

@@ -26,6 +26,11 @@ export const cardsSlice = createSlice({
         newEvidenceCard: (state, action: PayloadAction<Evidence>) => {
             state.evidences.push(action.payload);
         },
+        editEvidenceCard: (state, action: PayloadAction<Evidence>) => {
+            state.evidences = state.evidences.map((card) => {
+                return card.cardID === action.payload.cardID? action.payload : card;
+            })
+        },
 
         setRebuttalCards: (state, action: PayloadAction<Rebuttal[]>) => {
             state.rebuttals = action.payload;
@@ -35,6 +40,11 @@ export const cardsSlice = createSlice({
         },
         newRebuttalCard: (state, action: PayloadAction<Rebuttal>) => {
             state.rebuttals.push(action.payload);
+        },
+        editRebuttalCard: (state, action: PayloadAction<Rebuttal>) => {
+            state.rebuttals = state.rebuttals.map((card) => {
+                return card.cardID === action.payload.cardID? action.payload : card;
+            })
         },
 
         setQuoteCards: (state, action: PayloadAction<Quote[]>) => {
@@ -46,6 +56,11 @@ export const cardsSlice = createSlice({
         newQuoteCard: (state, action: PayloadAction<Quote>) => {
             state.quotes.push(action.payload);
         },
+        editQuoteCard: (state, action: PayloadAction<Quote>) => {
+            state.quotes = state.quotes.map((card) => {
+                return card.cardID === action.payload.cardID? action.payload : card;
+            })
+        },
     },
 });
 
@@ -53,14 +68,17 @@ export const {
     setEvidenceCards,
     removeEvidenceCard,
     newEvidenceCard,
+    editEvidenceCard,
 
     setRebuttalCards,
     removeRebuttalCard,
     newRebuttalCard,
+    editRebuttalCard,
 
     setQuoteCards,
     removeQuoteCard,
     newQuoteCard,
+    editQuoteCard,
 } = cardsSlice.actions;
 
 export default cardsSlice;
