@@ -172,13 +172,29 @@ async function saveQuoteCard(topic: string, side: string, card: Quote){
     setDoc(doc(db, "quotes", topic, side, card.cardID), card, {merge: true});
 }
 
-async function handleInviteAccept(user: User, teamID: string){
+async function handleInviteAccept(user: User, team: Team){
     const userRef = doc(usersCol, user.uid);
-    await setDoc(userRef, {teamID: teamID}, {merge: true});
+    const teamRef = doc(teamsCol, team.teamID);
+
+    await setDoc(userRef, {teamID: team.teamID}, {merge: true});
+
     const newInvites = [...user.teamInvites];
     newInvites.splice(0, 1);
-    console.log(newInvites);
     await setDoc(userRef, {teamInvites: newInvites}, {merge: true});
+
+    const newMembers = [...team.members];
+    newMembers.push(user.uid);
+    await setDoc(teamRef, {members: newMembers}, {merge: true});
+
+    location.reload();
+}
+
+async function handleInviteDecline(user: User){
+    const userRef = doc(usersCol, user.uid);
+    const newInvites = [...user.teamInvites];
+    newInvites.splice(0, 1);
+    await setDoc(userRef, {teamInvites: newInvites}, {merge: true});
+    location.reload();
 }
 
 async function sendInvite(invitee: string, teamID: string){
@@ -225,5 +241,6 @@ export {
     saveQuoteCard,
 
     handleInviteAccept,
+    handleInviteDecline,
     sendInvite,
 }

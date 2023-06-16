@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getUser, handleInviteAccept } from "../../utils/firebase/firestore";
+import { getUser, handleInviteAccept, handleInviteDecline } from "../../utils/firebase/firestore";
 import { Team, User } from "../../utils/types";
 import Creator from "../expanded/components/Creator";
 import { useAppSelector } from "../../utils/redux/hooks";
@@ -23,9 +23,12 @@ export default function TeamInvite(props: {team: Team}){
                 <div className="flex w-full justify-evenly">
                     <button className="w-32 h-10 rounded-lg bg-primary text-background"
                     onClick={() => {
-                        handleInviteAccept(user, team.teamID);
+                        handleInviteAccept(user, team);
                     }}>Join Team</button>
-                    <button className="w-32 h-10 rounded-lg bg-primary text-background">Decline</button>
+                    <button className="w-32 h-10 rounded-lg bg-primary text-background"
+                    onClick={() => {
+                        handleInviteDecline(user)
+                    }}>Decline</button>
                 </div>
             </div>
         </div>

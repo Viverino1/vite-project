@@ -44,10 +44,14 @@ export default function App(){
                 if(!user || !isLoading){return;}
 
                 getData(user).then((data) => {
-                    dispatch(setTeam(data.team));
+                    if(data.team){
+                        dispatch(setTeam(data.team));
+                    }
                     dispatch(setTopics(data.topics));
                     dispatch(setTopic(data.topic));
-                    dispatch(setContentions(data.contentions));
+                    if(data.contentions.length != 0){
+                        dispatch(setContentions(data.contentions));
+                    }
                     setTeamInvites(data.teamInvites);
                     setIsLoading(false);
                 })
