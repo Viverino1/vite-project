@@ -22,6 +22,7 @@ async function handleAuthClick(){
             userName: fbu.displayName,
             teamID: "",
             speaker: 1,
+            teamInvites: [],
         }
         saveUser(u);
         return u;

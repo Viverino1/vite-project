@@ -36,7 +36,7 @@ export default function QuoteCardExpanded(props: {data: Quote}){
 
             <div className="text-2xl mt-4">Quotee</div>
             <div className="text-lg">{props.data.quotee}</div>
-            <div className="text-2xl mt-4">Evidence</div>
+            <div className="text-2xl mt-4">Quote</div>
             <div className="text-lg">{props.data.text}</div>
             <div className="text-2xl mt-4">Reasoning</div>
             <div className="text-lg">{props.data.reasoning}</div>

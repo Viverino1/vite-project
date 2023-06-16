@@ -2,7 +2,7 @@ import { ReactElement } from "react"
 import { Google } from "react-bootstrap-icons"
 import { handleAuthClick } from "../../utils/firebase/auth"
 import { useAppDispatch } from "../../utils/redux/hooks"
-import { clearUser, setUser } from "../../utils/redux/reducers/auth";
+import { setUser } from "../../utils/redux/reducers/auth";
 
 export default function Auth(){
     const dispatch = useAppDispatch();
@@ -18,7 +18,7 @@ export default function Auth(){
                 <div className="mt-4 block md:hidden">
                     <Provider name="Login With Google" logo={<Google size={30}/>} callback={() => {
                         handleAuthClick().then((user) => {
-                            dispatch(user? setUser(user) : clearUser())
+                            if(user){dispatch(setUser(user));}
                         })
                     }}/>
                 </div>
@@ -29,7 +29,7 @@ export default function Auth(){
                 <div className="flex justify-center w-full">
                     <Provider name="Login With Google" logo={<Google size={30}/>} callback={() => {
                         handleAuthClick().then((user) => {
-                            dispatch(user? setUser(user) : clearUser())
+                            if(user){dispatch(setUser(user));}
                         })
                     }}/>
                 </div>

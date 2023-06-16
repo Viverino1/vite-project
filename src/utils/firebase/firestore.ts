@@ -1,6 +1,6 @@
 import { CollectionReference, DocumentData, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, setDoc } from "firebase/firestore";
 import app from "./config";
-import { Contention, Contentions, Evidence, PublicData, Quote, Rebuttal, Team, User } from "../types";
+import { Contention, Contentions, Evidence, PublicData, Quote, Rebuttal, Team, User } from "../types"
 
 const db = getFirestore(app);
 
@@ -172,6 +172,28 @@ async function saveQuoteCard(topic: string, side: string, card: Quote){
     setDoc(doc(db, "quotes", topic, side, card.cardID), card, {merge: true});
 }
 
+async function handleInviteAccept(user: User, teamID: string){
+    const userRef = doc(usersCol, user.uid);
+    await setDoc(userRef, {teamID: teamID}, {merge: true});
+    const newInvites = [...user.teamInvites];
+    newInvites.splice(0, 1);
+    console.log(newInvites);
+    await setDoc(userRef, {teamInvites: newInvites}, {merge: true});
+}
+
+async function sendInvite(invitee: string, teamID: string){
+    const user = await getUser(invitee);
+    if(!user){return}
+    const userRef = doc(usersCol, user.uid);
+    if(user.teamInvites){
+        const newInvites = [...user.teamInvites];
+        newInvites.push(teamID);
+        await setDoc(userRef, {teamInvites: newInvites}, {merge: true});
+    }else{
+        await setDoc(userRef, {teamInvites: [teamID]}, {merge: true});
+    }
+}
+
 export default db;
 
 export {
@@ -201,4 +223,7 @@ export {
     addQuoteCard,
     deleteQuoteCard,
     saveQuoteCard,
+
+    handleInviteAccept,
+    sendInvite,
 }

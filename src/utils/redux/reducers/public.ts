@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User } from "../../types";
 
 type PublicState = {
-    users: User[];
     topics: string[];
 };
 
@@ -15,9 +13,6 @@ export const publicSlice = createSlice({
     name: "public",
     initialState,
     reducers: {
-        setUsers: (state, action: PayloadAction<User[]>) => {
-            state.users = action.payload;
-        },
         setTopics: (state, action: PayloadAction<string[]>) => {
             state.topics = action.payload;
         },
@@ -25,7 +20,6 @@ export const publicSlice = createSlice({
 });
 
 export const {
-    setUsers,
     setTopics,
 } = publicSlice.actions;
 

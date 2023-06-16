@@ -2,7 +2,7 @@ import { User } from "../../../utils/types";
 
 export default function Creator(props: {owner: User}){
     return(
-        <div className="flex flex-col space-y-2 w-fit h-fit p-4 mt-4 rounded-lg bg-secondary">
+        <div className="flex flex-col space-y-2 w-fit h-fit p-4 rounded-lg bg-secondary">
             <div className="text-2xl">Creator</div>
             <div className="w-full h-px bg-accent"/>
             <div className="flex space-x-4 items-center">

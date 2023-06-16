@@ -91,13 +91,13 @@ export default function NewQuote(props: {editCard?: Quote}){
                 onChange={() => {setSourceLink(getValue("sourceLink", ""))}}/>
                 
                 <input type="text" id="quotee" placeholder="Who said the quote?" value={quotee}
-                className="w-full h-10 p-2 rounded-lg bg-secondary text-xl placeholder-primary outline-none
+                className="w-full h-10 p-2 rounded-lg bg-secondary text-xl text-primary placeholder-primary outline-none
                 shadow-primary shadow-md hover:shadow-primary hover:shadow-sm transition-all duration-300"
                 onChange={() => {setQuotee(getValue("quotee", ""))}}/>
 
                 <textarea id="text" className="w-full h-full text-lg p-2 bg-secondary rounded-lg outline-none resize-none placeholder-primary text-primary
                 shadow-primary shadow-md hover:shadow-primary hover:shadow-sm transition-all duration-300"
-                placeholder="Evidence" value={text}
+                placeholder="Quote" value={text}
                 onChange={() => {setText(getValue("text", ""))}}/>
 
                 <textarea id="reasoning" className="w-full h-full text-lg p-2 bg-secondary rounded-lg outline-none resize-none placeholder-primary text-primary

@@ -6,6 +6,7 @@ type User = {
     userName: string,
     teamID: string,
     speaker: number,
+    teamInvites: string[],
 }
 
 type Contentions = {

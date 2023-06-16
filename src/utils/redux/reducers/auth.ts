@@ -19,23 +19,23 @@ export const authSlice = createSlice({
             state.user = action.payload
             state.isLoggedIn = true;
         },
-        clearUser: (state) => {
-            state.user.displayName = "";
-            state.user.email = "";
-            state.user.photoURL = "";
-            state.user.uid = "";
-            state.isLoggedIn = false;
-        },
         setUserName: (state, action: PayloadAction<string>) => {
             state.user.userName = action.payload
         },
+        setSpeakerNumber: (state, action: PayloadAction<number>) => {
+            state.user.speaker = action.payload;
+        },
+        setTeamID: (state, action: PayloadAction<string>) => {
+            state.user.teamID = action.payload;
+        }
     },
 });
 
 export const {
   setUser,
-  clearUser,
   setUserName,
+  setSpeakerNumber,
+  setTeamID,
 } = authSlice.actions;
 
 export default authSlice;

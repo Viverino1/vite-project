@@ -1,23 +1,39 @@
 
 import { ExclamationCircleFill, PlusLg, Trash3Fill } from "react-bootstrap-icons";
 import { useAppDispatch, useAppSelector } from "../../utils/redux/hooks";
-import { Contention, Subpoint, Team } from "../../utils/types";
+import { Contention, Subpoint, Team, User } from "../../utils/types";
 import { useState } from "react";
 import { handleSignOutClick } from "../../utils/firebase/auth";
 import { useDispatch } from "react-redux";
-import { setUserName } from "../../utils/redux/reducers/auth";
-import { getValue } from "../../utils/helpers";
-import { createTeam, getUser } from "../../utils/firebase/firestore";
+import { setSpeakerNumber, setUserName } from "../../utils/redux/reducers/auth";
+import { getRadioValue, getValue } from "../../utils/helpers";
+import { createTeam, getUser, getUsers, sendInvite } from "../../utils/firebase/firestore";
 import { addContention, addSupboint, deleteContention, deleteSubpoint, setContentions, setTeam, setTeamName } from "../../utils/redux/reducers/team";
 import { useNavigate } from "react-router-dom";
+import Loading from "../loading/Loading";
 
 export default function Settings(){
     const team = useAppSelector((state) => state.team.team);
+    const [users, setUsers] = useState<User[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    if(users.length === 0){
+        getUsers().then((users) => {
+            setUsers(users);
+            setLoading(false);
+        });
+    }
+
+    if(!loading){
+        
+    }else{
+        return(<Loading/>);
+    }
 
     if(team.teamID) {
         return(
             <div className="flex flex-col space-y-4 w-full h-full p-4 text-accent text-lg overflow-scroll">
-                <TeamOptions team={team}/>
+                <TeamOptions team={team} users={users}/>
                 <CaseOptions/>
                 <AccountOptions/>
             </div>
@@ -25,17 +41,18 @@ export default function Settings(){
     }else{
         return(
             <div className="flex flex-col space-y-4 w-full h-full p-4 text-accent text-lg overflow-scroll">
-                <CreateTeam/>
+                <CreateTeam users={users}/>
                 <AccountOptions/>
             </div>
-        )
+        );
     }
 }
 
-function CreateTeam(){
+function CreateTeam(props: {users: User[]}){
     const dispatch = useAppDispatch();
 
-    const users = useAppSelector((state) => state.public.users);
+    const {users} = props;
+
     const user = useAppSelector((state) => state.auth.user);
 
     const [teamNameError, setTeamNameError] = useState("");
@@ -189,14 +206,31 @@ function CaseOptions(){
     )
 }
 
-function TeamOptions(props: {team: Team}){
+function TeamOptions(props: {team: Team, users: User[]}){
+    const {users} = props;
     const dispatch = useAppDispatch()
     return(
         <div className="flex flex-col space-y-4 w-full h-fit p-4 rounded-lg bg-secondary shadow-md shadow-primary">
             <div className="text-3xl">Team Options</div>
-            <div className="w-full h-fit">
+            <div className="w-full h-fit flex flex-col">
                 <div>Team Name</div>
                 <input type="text" id="editTeamName" defaultValue={props.team.teamName} className="h-10 w-full p-2 rounded-lg bg-background outline-none"/>
+            </div>
+            <div className="w-full h-fit">
+                <div>Invite Member</div>
+                <select id="inviteMember" className="h-10 w-full p-2 rounded-lg bg-background outline-none">
+                    <option value="">Select a User</option>
+                    {users.map((user) => (
+                        <option key={user.uid} value={user.uid}>{user.email} ({user.userName})</option>
+                    ))}
+                </select>
+                <button className="mt-2 flex justify-center items-center h-10 w-32 p-4 rounded-lg bg-primary text-secondary outline-none
+                    hover:shadow-lg hover:shadow-primary transition-all duration-300"
+                    onClick={() => {
+                        console.log(getValue("inviteMember", ""));
+                        sendInvite(getValue("inviteMember", ""), props.team.teamID);
+                    }}
+                >Invite</button>
             </div>
 
             <button className="flex justify-center items-center h-10 w-32 p-4 rounded-lg bg-primary text-secondary outline-none
@@ -219,10 +253,25 @@ function AccountOptions(){
                     <input type="text" id="userName" defaultValue={user.userName} className="h-10 w-full p-2 rounded-lg bg-background outline-none"/>
                 </div>
 
+                <div className="flex flex-col space-y-2 w-full h-fit">
+                    <div>Speaker Number</div>
+                    <div className="flex space-x-2 items-center">
+                        <div>Speaker 1</div>
+                        <input type="radio" name="speaker" id="speaker1" defaultChecked={user.speaker == 1}
+                        className="w-6 h-6 appearance-none bg-background checked:bg-primary rounded-full"/>
+                    </div>
+                    <div className="flex space-x-2 items-center">
+                        <div>Speaker 2</div>
+                        <input type="radio" name="speaker" id="speaker2" defaultChecked={user.speaker == 2}
+                        className="w-6 h-6 appearance-none bg-background checked:bg-primary rounded-full"/>
+                    </div>
+                </div>
+
                 <button className="flex justify-center items-center h-10 w-32 p-4 rounded-lg bg-primary text-secondary outline-none
                     hover:shadow-lg hover:shadow-primary transition-all duration-300"
                     onClick={() => {
                         dispatch(setUserName(getValue("userName", user.displayName)));
+                        dispatch(setSpeakerNumber(getRadioValue("speaker1")? 1 : 2));
                     }}
                 >Save</button>
 

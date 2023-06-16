@@ -4,6 +4,12 @@ function getValue(id: string, fallback: string){
     return value? value : fallback;
 }
 
+function getRadioValue(id: string){
+    const inputElement = document.getElementById(id) as HTMLInputElement | null;
+    const value = inputElement?.checked;
+    return value? value : false;
+}
+
 function contsub(cont: number, sub: number){
     var message = cont + "" + sub;
 
@@ -27,5 +33,6 @@ function contsub(cont: number, sub: number){
 
 export{
     getValue,
+    getRadioValue,
     contsub,
 }

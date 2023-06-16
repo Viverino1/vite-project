@@ -5,12 +5,11 @@ import Auth from "./pages/auth/Auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./utils/firebase/auth";
 import { setUser } from "./utils/redux/reducers/auth";
-import { clearUser } from "./utils/redux/reducers/auth";
 import { useEffect, useState } from "react";
 import { Contention, Team, User } from "./utils/types";
 import { setContentions, setTeam } from "./utils/redux/reducers/team";
-import { getContentions, getEvidenceCards, getPublicData, getQuoteCards, getRebuttalCards, getTeam, getUser, getUsers, saveContentions, saveTeam, saveUser } from "./utils/firebase/firestore";
-import { setTopics, setUsers } from "./utils/redux/reducers/public";
+import { getContentions, getEvidenceCards, getPublicData, getQuoteCards, getRebuttalCards, getTeam, getUser, saveContentions, saveTeam, saveUser } from "./utils/firebase/firestore";
+import { setTopics } from "./utils/redux/reducers/public";
 import Home from "./pages/home/home";
 import Settings from "./pages/settings/Settings";
 import Loading from "./pages/loading/Loading";
@@ -25,11 +24,14 @@ import NewRebuttal from "./pages/new/rebuttal/NewRebuttal";
 import RebuttalCardExpanded from "./pages/expanded/RebuttalCardExpanded";
 import NewQuote from "./pages/new/quote/NewQuote";
 import QuoteCardExpanded from "./pages/expanded/QuoteCardExpanded";
+import TeamInvite from "./pages/teamInvite/TeamInvite";
 
 export default function App(){
     const dispatch = useAppDispatch();
     const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
     const [isLoading, setIsLoading] = useState(true);
+
+    const [teamInvites, setTeamInvites] = useState<Team[]>([]);
 
     const evidences = useAppSelector((state) => state.cards.evidences);
     const rebuttals = useAppSelector((state) => state.cards.rebuttals);
@@ -38,26 +40,30 @@ export default function App(){
     onAuthStateChanged(auth, (u) => {
         if(u){
             getUser(u.uid).then((user) => {
-                dispatch(user? setUser(user) : clearUser());
+                if(user){dispatch(setUser(user))}
                 if(!user || !isLoading){return;}
 
                 getData(user).then((data) => {
                     dispatch(setTeam(data.team));
-                    dispatch(setUsers(data.users));
                     dispatch(setTopics(data.topics));
                     dispatch(setTopic(data.topic));
                     dispatch(setContentions(data.contentions));
+                    setTeamInvites(data.teamInvites);
                     setIsLoading(false);
                 })
             })
         }else{
-            dispatch(clearUser());
             auth.signOut();
             setIsLoading(false);
         }
     })
 
     if(isLoggedIn && !isLoading) {
+        if(teamInvites.length != 0){
+            return(
+                <TeamInvite team={teamInvites[0]}/>
+            )
+        }
         return(
             <div>
                 <UpdateData/>
@@ -133,17 +139,21 @@ export default function App(){
 }
 
 async function getData(user: User){
-    const users = await getUsers();
-
     const publicData = await getPublicData();
     const topics = publicData.topics;
     const topic = topics[topics.length - 1];
 
+    const teamInvites: Team[] = [];
+    for (let i = 0; i < user.teamInvites.length; i++) {
+        const invite = await getTeam(user.teamInvites[i]);
+        teamInvites.push(invite);
+    }
+    
     const team = user.teamID? await getTeam(user.teamID) : {} as Team;
 
     const contentions = await getContentions(user.teamID, topic, "AFF");
 
-    return {team, users, topics, topic, contentions}
+    return {team, topics, topic, contentions, teamInvites}
 }
 
 //Update data on firestore each time it changes in the app state.
